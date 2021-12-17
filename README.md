@@ -1,5 +1,7 @@
 # UK AirQuality
 
+![image](https://user-images.githubusercontent.com/40719064/146573808-26ab36dd-6da9-4231-99a6-7c2031ac0574.png)
+
 ## Learning Goals & Outcomes
 
 - Learn to model, clense, normalize, shard, map, query and analyze substantial real-world big data (230mb+);
