@@ -61,8 +61,8 @@ def remove_mismatch(df, column: str = "SiteID"):
                 mismatch.append(0)
         else:
             logging.info(
-                    f"line number mismatch is {i}, mismatch SiteID = {df[column][i]}, Mistmatch Location = {df['Location'][i]}"
-                )
+                f"line number mismatch is {i}, mismatch SiteID = {df[column][i]}, Mistmatch Location = {df['Location'][i]}"
+            )
             mismatch.append(1)
 
     # drop mismatch rows
@@ -71,13 +71,13 @@ def remove_mismatch(df, column: str = "SiteID"):
     df = df[df["mismatch"] == 0]
     df.drop(columns=["mismatch"], axis=1, inplace=True)
     logging.info(f"Total Rows After Dropping mismatch: {df.shape[0]}")
-    df.to_csv('cleaned_bristol-air-quality-data.csv', index=False)
+    df.to_csv("cleaned_bristol-air-quality-data.csv", index=False)
     return df
 
 
 if __name__ == "__main__":
     df = pd.read_csv("../data/bristol-air-quality-data.csv", sep=";")
-    df.sample(5000).to_csv('../data/sample_test_data.csv', index=False)
+    df.sample(5000).to_csv("../data/sample_test_data.csv", index=False)
     cropped_df = crop_data(df)
     filtered_df = filter_data(cropped_df)
     remove_mismatch_df = remove_mismatch(filtered_df)
