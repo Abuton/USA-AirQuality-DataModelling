@@ -16,5 +16,35 @@ A Simple Example would look like this
     "PM10": 12
 }
 ```
+For this task, I will be creating a MongoDB Database instance and will create a table known as collection. I will be using the `pymongo` python library to interact with MongoDB API and load data into the database as well as query it.
+
+I have choosen MongoDB because of it popularity, ease of Use and setup. Plus it also free.
+
+The task requires loading all rows for a specific Site in my case, I will be extracting the datapoints recorded from the **Brislington Depot** Station. I like the name that's why.
+
+After Extraction which will be achieved by a query that looks like this in sql
+    `SELECT * FROM 'pollution-db' WHERE Location = 'Brislington Depot'`
+
+The same result can be achieved using the pandas library as shown below:
+    `bris_station_df = df[df['Location'] == 'Brislington Depot']`
+
+On successful extraction, I will create a connection to my MongoDB instance using pymongo as follows:
+    ```
+        from pymongo import MongoClient
+        def connectMongo():
+            try:
+                conn = MongoClient()
+                print("Connected Succesfully!")
+                return conn
+            except Exception as e:
+                print(f"An Error Occured {e}")
+
+    ```
+Then I will create a database and a collection to store the station data. Since MongoDB is a Document/ Key-Value pair kind of database, the relational table-like format won't work. Hence, I need to convert the csv station data into a json format. Below is the code to do just that;
+    ```
+        def csv_to_json(filename, header=None):
+            data = pd.read_csv(filename, header=header, low_memory=False)
+            return data.to_dict('records')
+    ```
 
 
