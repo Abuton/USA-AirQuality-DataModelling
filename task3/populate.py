@@ -138,7 +138,7 @@ def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> Non
 if __name__ == "__main__":
     dbName = "pollution-db2"
     table_name = "AirQualityMeasures"
-    df = pd.read_csv("../cleaned_bristol-air-quality-data.csv", low_memory=False)
+    df = pd.read_csv("../data/cleaned_bristol-air-quality-data.csv", low_memory=False)
 
     # create db
     createDB(dbName)
