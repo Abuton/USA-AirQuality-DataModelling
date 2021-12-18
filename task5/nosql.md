@@ -48,8 +48,8 @@ On successful extraction, I will create a connection to my MongoDB instance usin
 Then I will create a database and a collection to store the station data. Since MongoDB is a Document/ Key-Value pair kind of database, the relational table-like format won't work. Hence, I need to convert the csv station data into a json format. Below is the code to do just that;
 
 ```python
-    def csv_to_json(filename, header=None):
-        data = pd.read_csv(filename, header=header, low_memory=False)
+    def csv_to_json(filename:
+        data = pd.read_csv(filename, low_memory=False)
         return data.to_dict('records')
 ```
 
@@ -72,4 +72,32 @@ Inspecting the database to check if the data is inserted correctly is done by
 
 ## Performing Exploration on MongoDB
 
-Pipelines and Aggregation are easy to write using the MongoDB `agg` method.
+Pipelines and Aggregation are easy to write using the MongoDB `aggregate` method.
+
+e.g to find all Brislington Depot where Nitrogen Oxide was greater than 40, can be achived with the following query
+
+`db.BrislingtonDepot.find( {NOx: {$gt: 30 } } )`
+
+to find  
+
+`db.BrislingtonDepot.aggregate([ { $match: { Current: true}}])`
+
+a more complex pipeline looks like this
+
+```py
+db.BrislingtonDepot.aggregate( [
+   { $match: { Current: true } },
+   { $group: { _id: "$siteID", NO2: { $sum: "$NO2" } } }
+] )
+
+```
+
+to get the average
+
+```py
+db.BrislingtonDepot.aggregate( [
+   { $match: { Current: true } },
+   { $group: { _id: "$siteID", NO2: { $avg: "$NO2" } } }
+] )
+
+```
