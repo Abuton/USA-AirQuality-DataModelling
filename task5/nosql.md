@@ -8,7 +8,7 @@ There are many NoSQL database implementation and I have selected the MongoDB NoS
 
 A Simple Example would look like this
 
-```
+```json
 {
     "Date Time": 2020/09/21 08:00:00,
     "NOx": 54.3,
@@ -16,6 +16,7 @@ A Simple Example would look like this
     "PM10": 12
 }
 ```
+
 For this task, I will be creating a MongoDB Database instance and will create a table known as collection. I will be using the `pymongo` python library to interact with MongoDB API and load data into the database as well as query it.
 
 I have choosen MongoDB because of it popularity, ease of Use and setup. Plus it also free.
@@ -23,28 +24,52 @@ I have choosen MongoDB because of it popularity, ease of Use and setup. Plus it 
 The task requires loading all rows for a specific Site in my case, I will be extracting the datapoints recorded from the **Brislington Depot** Station. I like the name that's why.
 
 After Extraction which will be achieved by a query that looks like this in sql
-    `SELECT * FROM 'pollution-db' WHERE Location = 'Brislington Depot'`
+
+`SELECT * FROM 'pollution-db' WHERE Location = 'Brislington Depot'`
 
 The same result can be achieved using the pandas library as shown below:
-    `bris_station_df = df[df['Location'] == 'Brislington Depot']`
+
+`bris_station_df = df[df['Location'] == 'Brislington Depot']`
 
 On successful extraction, I will create a connection to my MongoDB instance using pymongo as follows:
-    ```
-        from pymongo import MongoClient
-        def connectMongo():
-            try:
-                conn = MongoClient()
-                print("Connected Succesfully!")
-                return conn
-            except Exception as e:
-                print(f"An Error Occured {e}")
 
-    ```
+```python
+    from pymongo import MongoClient
+    def connectMongo():
+        try:
+            conn = MongoClient()
+            print("Connected Succesfully!")
+            return conn
+        except Exception as e:
+            print(f"An Error Occured {e}")
+
+```
+
 Then I will create a database and a collection to store the station data. Since MongoDB is a Document/ Key-Value pair kind of database, the relational table-like format won't work. Hence, I need to convert the csv station data into a json format. Below is the code to do just that;
-    ```
-        def csv_to_json(filename, header=None):
-            data = pd.read_csv(filename, header=header, low_memory=False)
-            return data.to_dict('records')
-    ```
 
+```python
+    def csv_to_json(filename, header=None):
+        data = pd.read_csv(filename, header=header, low_memory=False)
+        return data.to_dict('records')
+```
 
+After converting to a json, a single line of code will insert the data into the MongoDB collection;
+
+```python
+try:
+    # inserting the data in the database
+    collection.insert_many(records)
+    print("Records inserted")
+except Exception as e:
+    print("Error Occured", e)
+```
+
+Inspecting the database to check if the data is inserted correctly is done by
+
+`db.BrislingtonDepot.count()` -- prints total count of documents in the collection
+
+`db.BrislingtonDepot.find()` -- prints first few documents
+
+## Performing Exploration on MongoDB
+
+Pipelines and Aggregation are easy to write using the MongoDB `agg` method.
