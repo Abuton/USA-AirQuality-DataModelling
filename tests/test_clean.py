@@ -1,9 +1,5 @@
-import sys
-import os
 import unittest
 import pandas as pd
-
-sys.path.append(os.path.abspath(os.path.join("../")))
 
 from task1.clean import filter_data
 
