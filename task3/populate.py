@@ -15,7 +15,8 @@ def DBConnect(dbName=None):
     -------
 
     """
-    conn = mysql.connect(host="localhost", user="root", database=dbName, buffered=True)
+    conn = mysql.connect(host="localhost", user="root",
+                         database=dbName, buffered=True)
     cur = conn.cursor()
     return conn, cur
 
@@ -34,9 +35,7 @@ def createDB(dbName: str) -> None:
     """
     try:
         conn, cur = DBConnect(dbName)
-        cur.execute(
-            f"CREATE DATABASE IF NOT EXISTS {dbName} CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;"
-        )
+        cur.execute(f"CREATE DATABASE IF NOT EXISTS {dbName};")
         conn.commit()
         print(f"{dbName} DataBases Successfully created")
         cur.close()
@@ -75,7 +74,7 @@ def createTables(dbName: str) -> None:
     return None
 
 
-def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> None:
+def insert_to_table(dbName: str, df: pd.DataFrame, table_name: str) -> None:
     """
 
     Parameters
@@ -94,9 +93,13 @@ def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> Non
     conn, cur = DBConnect(dbName)
 
     for _, row in df.iterrows():
-        sqlQuery = f"""INSERT INTO {table_name} (DateRecorded, SiteID, Location, NO2, NOX, NO, PM10, PM2.5, NVPM10, NVPM2.5, VPM10, VPM2.5, CO,
-                            O3, Temperature, ReletiveHumidity, AirPressure, GeoPoint2d, CurrentStatus, InstrumentType, StartDateTime, EndDateTime)
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        sqlQuery = f"""INSERT INTO {table_name} (DateRecorded, SiteID, Location,
+                     NO2, NOX, NO, PM10, PM2.5, NVPM10, NVPM2.5,
+                     VPM10, VPM2.5, CO, O3, Temperature,
+                     ReletiveHumidity, AirPressure, GeoPoint2d,
+                     CurrentStatus, InstrumentType, StartDateTime, EndDateTime)
+                     VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                     %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
         data = (
             row[0],
             row[4],
@@ -138,11 +141,12 @@ def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> Non
 if __name__ == "__main__":
     dbName = "pollution-db2"
     table_name = "AirQualityMeasures"
-    df = pd.read_csv("../data/cleaned_bristol-air-quality-data.csv", low_memory=False)
+    df = pd.read_csv("../data/cleaned_bristol-air-quality-data.csv",
+                     low_memory=False)
 
     # create db
     createDB(dbName)
     # create table
     createTables(dbName)
     # insert into tables
-    insert_to_tweet_table(dbName, df, table_name)
+    insert_to_table(dbName, df, table_name)
