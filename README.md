@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/40719064/146573808-26ab36dd-6da9-4231-99a6-7c2031ac0574.png)
 
-## Learning Goals
+## Simple Practice
 
 - Learn to model, clense, normalize, shard, map, query and analyze substantial real-world big data (230mb+);
 - Understand the data cleansing, normalization and sharding processes by writing PYTHON scripts to process and convert the data to first (cleansed) CSV and then (normalized) SQL;
