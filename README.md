@@ -1,4 +1,4 @@
-# USA AirQuality BigData Modelling
+# AirQuality BigData Modelling
 
 ![image](https://user-images.githubusercontent.com/40719064/146573808-26ab36dd-6da9-4231-99a6-7c2031ac0574.png)
 
@@ -46,4 +46,9 @@ There are 18 stations (monitors):
 - 500 => 'Temple Way',
 - 501 => 'Colston Avenue'
 
-Each line represents one reading from a specific detector. Detectors take one reading every hour. If you examine the file using a programming editor, Notepad++ can handle the job, you can see that the first row gives headers and there are another 1408379 (1.4 million+) rows (lines). There are 23 data items (columns) per line.
+Each line represents one reading from a specific detector. 
+
+Detectors take one reading every hour. If you examine the file using a programming editor, Notepad++ can handle the job, you can see that the first row gives headers and there are another 1408379 (1.4 million+) rows (lines). 
+There are 23 data items (columns) per line.
+
+Have fun
